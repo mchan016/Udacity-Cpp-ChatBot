@@ -45,6 +45,101 @@ ChatBot::~ChatBot()
 //// STUDENT CODE
 ////
 
+// Copy constructor
+ChatBot::ChatBot(const ChatBot &sourceBot)
+{
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+
+    // Utilize wxWidgets Copy on Write to make a lazy copy
+    _image = new wxBitmap(*sourceBot._image);
+
+    // Shallow copy the rest of the data handles that are not owned
+    _currentNode = sourceBot._currentNode;
+    _rootNode = sourceBot._rootNode;
+    _chatLogic = sourceBot._chatLogic;
+}
+
+// Copy assignment operator
+ChatBot &ChatBot::operator=(const ChatBot &sourceBot)
+{
+    std::cout << "ChatBot Copy Assigment Operator" << std::endl;
+
+    // Verify this is not a self assignment
+    if (this != &sourceBot)
+    {
+        // delete current _image
+        if (_image != NULL)
+        {
+            delete _image;
+            _image = NULL;
+        }
+
+        // Utilize wxWidgets Copy on Write to make a lazy copy
+        _image = new wxBitmap(*sourceBot._image);
+
+        // Shallow copy the rest of the data handles that are not owned
+        _currentNode = sourceBot._currentNode;
+        _rootNode = sourceBot._rootNode;
+        _chatLogic = sourceBot._chatLogic;
+    }
+
+
+    return *this;
+}
+
+// Move constructor
+ChatBot::ChatBot(ChatBot &&sourceBot)
+{
+    std::cout << "ChatBot Move Constructor" << std::endl;
+
+    // Utilize wxWidgets Copy on Write to make a lazy copy
+    _image = new wxBitmap(*sourceBot._image);
+
+    // Shallow copy the rest of the data handles that are not owned
+    _currentNode = sourceBot._currentNode;
+    _rootNode = sourceBot._rootNode;
+    _chatLogic = sourceBot._chatLogic;
+
+    sourceBot._image = NULL;
+
+    sourceBot._currentNode = nullptr;
+    sourceBot._rootNode = nullptr;
+    sourceBot._chatLogic = nullptr;
+}
+
+// Move assignment operator
+ChatBot &ChatBot::operator=(ChatBot &&sourceBot)
+{
+    std::cout << "ChatBot Move Assignment Operator" << std::endl;
+
+    // Check we are not self assigning
+    if (this != &sourceBot)
+    {
+        // delete current _image
+        if (_image != NULL)
+        {
+            delete _image;
+            _image = NULL;
+        }
+
+        // Utilize wxWidgets Copy on Write to make a lazy copy
+        _image = new wxBitmap(*sourceBot._image);
+
+        // Shallow copy the rest of the data handles that are not owned
+        _currentNode = sourceBot._currentNode;
+        _rootNode = sourceBot._rootNode;
+        _chatLogic = sourceBot._chatLogic;
+
+        sourceBot._image = NULL;
+
+        sourceBot._currentNode = nullptr;
+        sourceBot._rootNode = nullptr;
+        sourceBot._chatLogic = nullptr;
+    }
+
+    return *this;
+}
+
 ////
 //// EOF STUDENT CODE
 
