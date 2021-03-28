@@ -100,6 +100,8 @@ ChatBot::ChatBot(ChatBot &&sourceBot)
     _rootNode = sourceBot._rootNode;
     _chatLogic = sourceBot._chatLogic;
 
+    _chatLogic->SetChatbotHandle(this);
+
     sourceBot._image = NULL;
 
     sourceBot._currentNode = nullptr;
@@ -123,12 +125,15 @@ ChatBot &ChatBot::operator=(ChatBot &&sourceBot)
         }
 
         // Utilize wxWidgets Copy on Write to make a lazy copy
-        _image = new wxBitmap(*sourceBot._image);
+        if (sourceBot._image)
+            _image = new wxBitmap(*sourceBot._image);
 
         // Shallow copy the rest of the data handles that are not owned
         _currentNode = sourceBot._currentNode;
         _rootNode = sourceBot._rootNode;
         _chatLogic = sourceBot._chatLogic;
+
+        _chatLogic->SetChatbotHandle(this);
 
         sourceBot._image = NULL;
 

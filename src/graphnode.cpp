@@ -6,10 +6,7 @@ GraphNode::GraphNode(int id)
     _id = id;
 }
 
-GraphNode::~GraphNode()
-{
-    _chatBot = nullptr;
-}
+GraphNode::~GraphNode() {}
 
 void GraphNode::AddToken(std::string token)
 {
@@ -28,16 +25,15 @@ void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
 
 //// STUDENT CODE
 ////
-void GraphNode::MoveChatbotHere(ChatBot *chatbot)
+void GraphNode::MoveChatbotHere(ChatBot &chatbot)
 {
-    _chatBot = chatbot;
-    _chatBot->SetCurrentNode(this);
+    _chatty = ChatBot(std::move(chatbot));
+    _chatty.SetCurrentNode(this);
 }
 
 void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
 {
-    newNode->MoveChatbotHere(_chatBot);
-    _chatBot = nullptr; // invalidate pointer at source
+    newNode->MoveChatbotHere(_chatty);
 }
 ////
 //// EOF STUDENT CODE

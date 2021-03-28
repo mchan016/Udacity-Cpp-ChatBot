@@ -18,10 +18,10 @@ ChatLogic::ChatLogic()
     ////
 
     // create instance of chatbot
-    _chatBot = new ChatBot("../images/chatbot.png");
+    // _chatBot = new ChatBot("../images/chatbot.png");
 
     // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    _chatBot->SetChatLogicHandle(this);
+    // _chatBot->SetChatLogicHandle(this);
 
     ////
     //// EOF STUDENT CODE
@@ -30,7 +30,7 @@ ChatLogic::ChatLogic()
 ChatLogic::~ChatLogic() 
 {
     // delete chatbot instance
-    delete _chatBot;
+    // delete _chatBot;
 }
 
 template <typename T>
@@ -199,9 +199,11 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
         }
     }
 
-    // add chatbot to graph root node
-    _chatBot->SetRootNode(rootNode.get());
-    rootNode->MoveChatbotHere(_chatBot);
+    // Generate instance of chatbot on stack
+    ChatBot chatty("../images/chatbot.png");
+    chatty.SetChatLogicHandle(this);
+    chatty.SetRootNode(rootNode.get());
+    rootNode->MoveChatbotHere(chatty);
     
     ////
     //// EOF STUDENT CODE
