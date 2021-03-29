@@ -50,7 +50,7 @@ ChatBot::ChatBot(const ChatBot &sourceBot)
 {
     std::cout << "ChatBot Copy Constructor" << std::endl;
 
-    // Utilize wxWidgets Copy on Write to make a lazy copy
+    // Deep copy source image
     _image = new wxBitmap(*sourceBot._image);
 
     // Shallow copy the rest of the data handles that are not owned
@@ -74,7 +74,7 @@ ChatBot &ChatBot::operator=(const ChatBot &sourceBot)
             _image = NULL;
         }
 
-        // Utilize wxWidgets Copy on Write to make a lazy copy
+        // Deep copy source image
         _image = new wxBitmap(*sourceBot._image);
 
         // Shallow copy the rest of the data handles that are not owned
@@ -93,7 +93,7 @@ ChatBot::ChatBot(ChatBot &&sourceBot)
     std::cout << "ChatBot Move Constructor" << std::endl;
 
     // Utilize wxWidgets Copy on Write to make a lazy copy
-    _image = new wxBitmap(*sourceBot._image);
+    _image = sourceBot._image;
 
     // Shallow copy the rest of the data handles that are not owned
     _currentNode = sourceBot._currentNode;
@@ -126,7 +126,7 @@ ChatBot &ChatBot::operator=(ChatBot &&sourceBot)
 
         // Utilize wxWidgets Copy on Write to make a lazy copy
         if (sourceBot._image)
-            _image = new wxBitmap(*sourceBot._image);
+            _image = sourceBot._image;
 
         // Shallow copy the rest of the data handles that are not owned
         _currentNode = sourceBot._currentNode;
